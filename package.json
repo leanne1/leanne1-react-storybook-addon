@@ -54,7 +54,9 @@
   },
   "dependencies": {
     "babel-runtime": "^6.11.6",
-    "json-loader": "^0.5.4"
+    "bootstrap": "^3.3.7",
+    "json-loader": "^0.5.4",
+    "react-bootstrap": "^0.30.7"
   },
   "main": "dist/index.js",
   "engines": {

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import addonAPI from '@kadira/storybook-addons';
+import { App } from './components';
 
 const styles = {
 	notesPanel: {
@@ -12,23 +13,23 @@ const styles = {
 	},
 };
 
-class Notes extends Component {
+class Comments extends Component {
 	constructor(...args) {
 		super(...args);
 		this.state = { text: '' };
-		this.onAddNotes = this.onAddNotes.bind(this);
+		this.onAddComments = this.onAddComments.bind(this);
 	}
 	componentDidMount() {
 		const { channel, api } = this.props;
 		// Listen to the notes and render it.
-		channel.on('kadira/notes/add_notes', this.onAddNotes);
+		channel.on('kadira/notes/add_notes', this.onAddComments);
 
 		// Clear the current notes on every story change.
 		this.stopListeningOnStory = api.onStory(() => {
-			this.onAddNotes('');
+			this.onAddComments('');
 		});
 	}
-	// This is some cleanup tasks when the Notes panel is unmounting.
+	// This is some cleanup tasks when the Comments panel is unmounting.
 	componentWillUnmount() {
 		if (this.stopListeningOnStory) {
 			this.stopListeningOnStory();
@@ -36,9 +37,9 @@ class Notes extends Component {
 
 		this.unmounted = true;
 		const { channel } = this.props;
-		channel.removeListener('kadira/notes/add_notes', this.onAddNotes);
+		channel.removeListener('kadira/notes/add_notes', this.onAddComments);
 	}
-	onAddNotes(text) {
+	onAddComments(text) {
 		this.setState({ text });
 	}
 	render() {
@@ -47,13 +48,14 @@ class Notes extends Component {
 
 		return (
 			<div style={styles.notesPanel}>
+				<App />
 				<div dangerouslySetInnerHTML={{ __html: textAfterFormatted }} />
 			</div>
 		);
 	}
 }
 
-Notes.propTypes = {
+Comments.propTypes = {
 	channel: PropTypes.object,
 	api: PropTypes.object,
 };
@@ -62,9 +64,9 @@ Notes.propTypes = {
 addonAPI.register('kadira/notes', (storybookAPI) => {
 	// Also need to set a unique name to the panel.
 	addonAPI.addPanel('kadira/notes/panel', {
-		title: 'Notes',
+		title: 'Comments',
 		render: () => (
-			<Notes channel={addonAPI.getChannel()} api={storybookAPI} />
+			<Comments channel={addonAPI.getChannel()} api={storybookAPI} />
 		),
 	});
 });

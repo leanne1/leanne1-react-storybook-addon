@@ -1,19 +1,13 @@
 import { Component, PropTypes } from 'react';
-import addons from '@kadira/storybook-addons';
+// import addons from '@kadira/storybook-addons';
 
-export class WithNotes extends Component {
+export class WithComments extends Component {
 	render() {
-		const { children, notes } = this.props;
-		const channel = addons.getChannel();
-
-		// send the notes to the channel.
-		channel.emit('kadira/notes/add_notes', notes);
-		// return children elements.
+		const { children } = this.props;
 		return children;
 	}
 }
 
-WithNotes.propTypes = {
+WithComments.propTypes = {
 	children: PropTypes.element,
-	notes: PropTypes.object,
 };
