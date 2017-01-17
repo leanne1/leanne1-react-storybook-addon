@@ -2,3 +2,5 @@ node_modules
 *.log
 .idea
 dist
+DS_Store
+src/comments-addon/config/

@@ -1,7 +1,7 @@
-import React from 'react';
+import { Component, PropTypes } from 'react';
 import addons from '@kadira/storybook-addons';
 
-export class WithNotes extends React.Component {
+export class WithNotes extends Component {
 	render() {
 		const { children, notes } = this.props;
 		const channel = addons.getChannel();
@@ -12,3 +12,8 @@ export class WithNotes extends React.Component {
 		return children;
 	}
 }
+
+WithNotes.propTypes = {
+	children: PropTypes.element,
+	notes: PropTypes.object,
+};
