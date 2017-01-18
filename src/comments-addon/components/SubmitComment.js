@@ -1,11 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
-export default class SubmitComment extends Component {
-	render() {
-		return (<div>SubmitComment</div>);
-	}
-}
+const SubmitComment = (props) => (
+	<div>
+		<h4>SubmitComment</h4>
+	</div>
+);
 
-SubmitComment.propTypes = {
-	children: PropTypes.element,
-};
+export default SubmitComment;

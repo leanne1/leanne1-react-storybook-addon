@@ -1,1 +1,1 @@
-export { hasStorage } from './localStorage';
+export { hasStorage } from './webStorage';

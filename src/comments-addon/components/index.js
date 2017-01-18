@@ -1,4 +1,3 @@
 export Comments from './Comments';
-export Login from './Login';
+export Register from './Register';
 export SubmitComment from './SubmitComment';
-export App from './App';

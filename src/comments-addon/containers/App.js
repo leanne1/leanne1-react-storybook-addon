@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import 'material-design-lite/material.min.css';
 import addonAPI from '@kadira/storybook-addons';
-import { Comments, Login, SubmitComment } from './';
+import { Comments, Register, SubmitComment } from '../components';
 import { hasStorage } from '../utils';
 
 export default class App extends Component {
@@ -29,7 +29,7 @@ export default class App extends Component {
 		const userEmail = localStorage.getItem('blabbr_userEmail');
 		userNickName && userEmail && this.setState({ user: { userNickName,  userEmail, isUserAuthenticated: true }});
 	}
-	setUser(nickname, email) {
+	registerUser(nickname, email) {
 		const { user } = this.state;
 		localStorage.setItem('blabbr_userNickName', nickname);
 		localStorage.setItem('blabbr_userEmail', email);
@@ -46,7 +46,7 @@ export default class App extends Component {
 	onRegisterSubmit(e) {
 		const { user: { userNickName, userEmail } } =  this.state;
 		e.preventDefault();
-		this.setUser(userNickName, userEmail);
+		this.registerUser(userNickName, userEmail);
 	}
 	render() {
 		const { user: { userNickName, userEmail, isUserAuthenticated } } =  this.state;
@@ -56,7 +56,7 @@ export default class App extends Component {
 				<Comments />
 
 				{ !isUserAuthenticated &&
-					<Login
+					<Register
 						onUserNickNameChange={this.onUserNickNameChange}
 						onUserEmailChange={this.onUserEmailChange}
 						onRegisterSubmit={this.onRegisterSubmit}
