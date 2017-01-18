@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { FormGroup, FormControl, ControlLabel, Button, Panel } from 'react-bootstrap';
 
 export default class Login extends Component {
 	render() {
@@ -11,42 +10,54 @@ export default class Login extends Component {
 			userEmail
 		} = this.props;
 
-		const formTitle = (
-			<h2>Register to add comments</h2>
-		);
 		return (
-			<Panel header={formTitle}>
+			<section>
 				<form>
+					<div style={{
+						borderStyle: "solid",
+						borderWidth: 1,
+						borderColor: "rgba(0,0,0,.12)",
+						padding: 12,
+						paddingTop: 0
+					}}>
+						<h5 className="mdl-h5">Register to add comments</h5>
+						<div className="mdl-textfield">
+							<input
+								className="mdl-textfield__input"
+								type="text"
+								id="nickname"
+								value={userNickName || ''}
+								onChange={onUserNickNameChange} />
+							<label
+								className="mdl-textfield__label"
+								htmlFor="nickname">
+								Nick name
+							</label>
+						</div>
 
-					<FormGroup>
-						<ControlLabel htmlFor="nick-name">
-							Nick name:
-						</ControlLabel>
-						<FormControl
-							id="nick-name"
-							value={userNickName || ''}
-							onChange={onUserNickNameChange} />
-					</FormGroup>
+						<div className="mdl-textfield">
+							<input
+								className="mdl-textfield__input"
+								type="text"
+								id="email"
+								value={userEmail || ''}
+								onChange={onUserEmailChange} />
+							<label
+								className="mdl-textfield__label"
+								htmlFor="email">
+								Email
+							</label>
+						</div>
 
-					<FormGroup>
-						<ControlLabel htmlFor="email">
-							Email:
-						</ControlLabel>
-						<FormControl
-							id="email"
-							value={userEmail || ''}
-							onChange={onUserEmailChange} />
-					</FormGroup>
-
-					<Button
-						type="submit"
-						bsClass="btn btn-success"
-						onClick={onRegisterSubmit}>
-						Register
-					</Button>
-
+						<button
+							type="submit"
+							className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+							onClick={onRegisterSubmit}>
+							Register
+						</button>
+					</div>
 				</form>
-			</Panel>
+			</section>
 
 		);
 	}

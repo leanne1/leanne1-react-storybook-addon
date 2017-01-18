@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import css from 'bootstrap/dist/css/bootstrap.css';
+import 'material-design-lite/material.min.css';
 import addonAPI from '@kadira/storybook-addons';
 import { Comments, Login, SubmitComment } from './';
 import { hasStorage } from '../utils';
@@ -22,9 +22,7 @@ export default class App extends Component {
 		this.verifyUser = ::this.verifyUser;
 	}
 	componentWillMount() {
-		if (hasStorage('localStorage')) {
-			this.verifyUser();
-		}
+		hasStorage('localStorage') && this.verifyUser();
 	}
 	verifyUser() {
 		const userNickName = localStorage.getItem('blabbr_userNickName');
