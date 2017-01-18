@@ -3,19 +3,25 @@ import 'material-design-lite/material.min.css';
 import addonAPI from '@kadira/storybook-addons';
 import { Comments, Register, SubmitComment } from '../components';
 import { hasStorage } from '../utils';
+import { getComments } from '../api';
 
 export default class App extends Component {
 	constructor(...args) {
 		super(...args);
 		this.state = {
+			activeComponent: null,
+			activeStory: null,
+			activeVersion: null,
 			user: {
 				isUserAuthenticated: null,
 				userNickName: null,
 				userEmail: null,
 			},
 			userComment: null,
-			comments: []
+			comments: null
 		};
+		this.onStoryChangeHandler = ::this.onStoryChangeHandler;
+		this.fetchComments = ::this.fetchComments;
 		this.onUserNickNameChange = ::this.onUserNickNameChange;
 		this.onUserEmailChange = ::this.onUserEmailChange;
 		this.onRegisterSubmit = ::this.onRegisterSubmit;
@@ -23,6 +29,17 @@ export default class App extends Component {
 	}
 	componentWillMount() {
 		hasStorage('localStorage') && this.verifyUser();
+	}
+	componentDidMount() {
+		const { storybook } = this.props;
+		storybook.onStory && storybook.onStory((kind, story) => this.onStoryChangeHandler(kind, story));
+	}
+	onStoryChangeHandler(kind, story) {
+		this.setState({
+			activeComponent: kind,
+			activeStory: story
+		});
+		this.fetchComments(kind, story);
 	}
 	verifyUser() {
 		const userNickName = localStorage.getItem('blabbr_userNickName');
@@ -48,12 +65,27 @@ export default class App extends Component {
 		e.preventDefault();
 		this.registerUser(userNickName, userEmail);
 	}
-	render() {
-		const { user: { userNickName, userEmail, isUserAuthenticated } } =  this.state;
-		return (
-			<section>
+	fetchComments(kind, story, version) {
+		getComments(kind, story, version)
+			.then(data => {
+				this.setState({ comments: data.comments });
+			});
 
-				<Comments />
+	}
+	render() {
+		const {
+			user: { userNickName, userEmail, isUserAuthenticated },
+			comments,
+		} =  this.state;
+		return (
+			<section style={{
+				padding: 20,
+				paddingTop: 0
+			}}>
+
+				{ !!comments &&
+					<Comments comments={comments} />
+				}
 
 				{ !isUserAuthenticated &&
 					<Register
@@ -74,5 +106,5 @@ export default class App extends Component {
 }
 
 App.propTypes = {
-	children: PropTypes.element,
+	storybook: PropTypes.object.isRequired,
 };

@@ -48,7 +48,8 @@
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.0",
     "sinon": "^1.17.3",
-    "style-loader": "^0.13.1"
+    "style-loader": "^0.13.1",
+    "whatwg-fetch": "^2.0.1"
   },
   "peerDependencies": {
     "react": "^0.14.7 || ^15.0.0"

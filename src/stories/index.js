@@ -4,12 +4,12 @@ import Button from '../components/Button';
 import { WithComments } from '../comments-addon';
 
 storiesOf('Button', module)
-	.add('link button', () => (
+	.add('link', () => (
 		<WithComments>
 			<Button onClick={ linkTo('Button', 'some emojies as the text') }>Next Story</Button>
 		</WithComments>
 	))
-	.add('some emojies as the text', () => (
+	.add('emoji', () => (
 		<WithComments>
 			<Button>😀 😎 👍 💯</Button>
 		</WithComments>
