@@ -38,6 +38,7 @@ Comment.propTypes = {
 	emailId: PropTypes.string.isRequired,
 	username: PropTypes.string,
 	date: PropTypes.string.isRequired,
+	time: PropTypes.string.isRequired,
 	comment: PropTypes.string.isRequired,
 	approved: PropTypes.bool,
 };

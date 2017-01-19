@@ -122,9 +122,7 @@ export default class App extends Component {
 				paddingTop: 0,
 				width: "100%"
 			}}>
-
-				<Comments comments={comments}
-				/>
+				<h2>Comments</h2>
 
 				{ !isUserAuthenticated &&
 					<Register
@@ -143,6 +141,9 @@ export default class App extends Component {
 					    onCommentSubmit={this.onCommentSubmit}
 					/>
 				}
+
+				<Comments comments={comments}
+				/>
 
 			</section>
 		);
