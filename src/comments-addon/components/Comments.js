@@ -37,7 +37,7 @@ const Comments = ({ comments }) => {
 	return 	(
 		<ListGroup componentClass="ul">
 			<h2>Comments</h2>
-			{ commentsComponents }
+			{ commentsComponents.length ? commentsComponents : <p>No comments to show for this story</p> }
 		</ListGroup>
 	);
 };

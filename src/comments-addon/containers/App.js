@@ -18,7 +18,7 @@ export default class App extends Component {
 				userEmail: null,
 			},
 			userComment: null,
-			comments: null
+			comments: [],
 		};
 		this.onStoryChangeHandler = ::this.onStoryChangeHandler;
 		this.fetchComments = ::this.fetchComments;
@@ -69,13 +69,16 @@ export default class App extends Component {
 		getComments(kind, story, version)
 			.then(data => {
 				this.setState({ comments: data.comments });
-			});
+			})
+			.catch((e) => {});
 	}
 	render() {
 		const {
 			user: { userNickName, userEmail, isUserAuthenticated },
 			comments,
 		} =  this.state;
+
+		const hasComments = !!comments.length;
 		return (
 			<section style={{
 				padding: 20,
@@ -83,9 +86,7 @@ export default class App extends Component {
 				width: "100%"
 			}}>
 
-				{ !!comments &&
-					<Comments comments={comments} />
-				}
+				<Comments comments={comments} />
 
 				{ !isUserAuthenticated &&
 					<Register
