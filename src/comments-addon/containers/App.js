@@ -70,7 +70,6 @@ export default class App extends Component {
 			.then(data => {
 				this.setState({ comments: data.comments });
 			});
-
 	}
 	render() {
 		const {
