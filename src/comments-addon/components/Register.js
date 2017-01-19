@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react';
 import { FormGroup, FormControl, ControlLabel, Button, Panel } from 'react-bootstrap';
 
 const Register = ({
-	onUserNickNameChange,
+	onUserNameChange,
 	onUserEmailChange,
 	onRegisterSubmit,
-	userNickName,
+	userName,
 	userEmail,
 }) => {
 	const formTitle = (
@@ -15,29 +15,26 @@ const Register = ({
 	return (
 		<Panel header={formTitle}>
 			<form>
-
 				<FormGroup>
-					<ControlLabel htmlFor="nick-name">
-						Nick name:
+					<ControlLabel htmlFor="user-name">
+						User name:
 					</ControlLabel>
 					<FormControl
-						id="nick-name"
-						value={userNickName || ''}
-						onChange={onUserNickNameChange}
+						id="user-name"
+						value={userName}
+						onChange={onUserNameChange}
 					/>
 				</FormGroup>
-
 				<FormGroup>
 					<ControlLabel htmlFor="email">
 						Email:
 					</ControlLabel>
 					<FormControl
 						id="email"
-						value={userEmail || ''}
+						value={userEmail}
 						onChange={onUserEmailChange}
 					/>
 				</FormGroup>
-
 				<Button
 					type="submit"
 					bsClass="btn btn-success"
@@ -45,18 +42,16 @@ const Register = ({
 				>
 					Register
 				</Button>
-
 			</form>
 		</Panel>
 	);
 };
 
-
 Register.propTypes = {
-	onUserNickNameChange: PropTypes.func.isRequired,
+	onUserNameChange: PropTypes.func.isRequired,
 	onUserEmailChange: PropTypes.func.isRequired,
 	onRegisterSubmit: PropTypes.func.isRequired,
-	userNickName: PropTypes.string,
+	userName: PropTypes.string,
 	userEmail: PropTypes.string,
 };
 

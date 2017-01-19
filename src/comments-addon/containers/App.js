@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import addonAPI from '@kadira/storybook-addons';
 import { Comments, Register, SubmitComment } from '../components';
 import { hasStorage } from '../utils';
-import { getComments } from '../api';
+import { getComments, postComment } from '../api';
 
 export default class App extends Component {
 	constructor(...args) {
@@ -13,19 +13,22 @@ export default class App extends Component {
 			activeStory: null,
 			activeVersion: null,
 			user: {
-				isUserAuthenticated: null,
-				userNickName: null,
-				userEmail: null,
+				isUserAuthenticated: false,
+				userName: '',
+				userEmail: '',
 			},
-			userComment: null,
+			userComment: '',
 			comments: [],
 		};
 		this.onStoryChangeHandler = ::this.onStoryChangeHandler;
 		this.fetchComments = ::this.fetchComments;
-		this.onUserNickNameChange = ::this.onUserNickNameChange;
+		this.onUserNameChange = ::this.onUserNameChange;
 		this.onUserEmailChange = ::this.onUserEmailChange;
 		this.onRegisterSubmit = ::this.onRegisterSubmit;
 		this.verifyUser = ::this.verifyUser;
+		this.onUserCommentChange = ::this.onUserCommentChange;
+		this.onCommentSubmit = ::this.onCommentSubmit;
+		this.postComment = ::this.postComment;
 	}
 	componentWillMount() {
 		hasStorage('localStorage') && this.verifyUser();
@@ -40,30 +43,63 @@ export default class App extends Component {
 			activeStory: story
 		});
 		this.fetchComments(kind, story);
+		this.setState({ userComment: '' });
 	}
 	verifyUser() {
-		const userNickName = localStorage.getItem('blabbr_userNickName');
+		const userName = localStorage.getItem('blabbr_userName');
 		const userEmail = localStorage.getItem('blabbr_userEmail');
-		userNickName && userEmail && this.setState({ user: { userNickName,  userEmail, isUserAuthenticated: true }});
+		userName && userEmail && this.setState({ user: { userName,  userEmail, isUserAuthenticated: true }});
 	}
 	registerUser(nickname, email) {
 		const { user } = this.state;
-		localStorage.setItem('blabbr_userNickName', nickname);
+		localStorage.setItem('blabbr_userName', nickname);
 		localStorage.setItem('blabbr_userEmail', email);
 		this.setState({ user: Object.assign(user, { isUserAuthenticated: true })});
 	}
-	onUserNickNameChange(e) {
+	onUserNameChange(e) {
 		const { user } = this.state;
-		this.setState({ user: Object.assign(user, { userNickName: e.target.value })});
+		this.setState({ user: Object.assign(user, { userName: e.target.value })});
 	}
 	onUserEmailChange(e) {
 		const { user } = this.state;
 		this.setState({ user: Object.assign(user, { userEmail: e.target.value })});
 	}
 	onRegisterSubmit(e) {
-		const { user: { userNickName, userEmail } } =  this.state;
+		const { user: { userName, userEmail } } =  this.state;
 		e.preventDefault();
-		this.registerUser(userNickName, userEmail);
+		this.registerUser(userName, userEmail);
+	}
+	onUserCommentChange(e) {
+		this.setState({ userComment: e.target.value });
+	}
+	onCommentSubmit(e) {
+		const { userComment } = this.state;
+		e.preventDefault();
+		this.postComment(userComment);
+	}
+	postComment(userComment) {
+		const {
+			user: { userName, userEmail },
+			activeComponent,
+			activeStory,
+			activeVersion,
+			comments,
+		} = this.state;
+
+		postComment({
+			userComment,
+			userName,
+			userEmail,
+			component: activeComponent,
+			story: activeStory,
+			version: activeVersion,
+		})
+		.then((data) => {
+			this.setState({
+				comments: [data.comment, ...comments],
+				userComment: ''
+			});
+		});
 	}
 	fetchComments(kind, story, version) {
 		getComments(kind, story, version)
@@ -74,8 +110,9 @@ export default class App extends Component {
 	}
 	render() {
 		const {
-			user: { userNickName, userEmail, isUserAuthenticated },
+			user: { userName, userEmail, isUserAuthenticated },
 			comments,
+			userComment,
 		} =  this.state;
 
 		const hasComments = !!comments.length;
@@ -86,19 +123,25 @@ export default class App extends Component {
 				width: "100%"
 			}}>
 
-				<Comments comments={comments} />
+				<Comments comments={comments}
+				/>
 
 				{ !isUserAuthenticated &&
 					<Register
-						onUserNickNameChange={this.onUserNickNameChange}
+						onUserNameChange={this.onUserNameChange}
 						onUserEmailChange={this.onUserEmailChange}
 						onRegisterSubmit={this.onRegisterSubmit}
-						userNickName={userNickName}
-						userEmail={userEmail} />
+						userName={userName}
+						userEmail={userEmail}
+					/>
 				}
 
 				{ !!isUserAuthenticated &&
-					<SubmitComment />
+					<SubmitComment
+						userComment={userComment}
+						onUserCommentChange={this.onUserCommentChange}
+					    onCommentSubmit={this.onCommentSubmit}
+					/>
 				}
 
 			</section>
