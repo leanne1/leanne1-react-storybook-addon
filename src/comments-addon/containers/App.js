@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import 'material-design-lite/material.min.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import addonAPI from '@kadira/storybook-addons';
 import { Comments, Register, SubmitComment } from '../components';
 import { hasStorage } from '../utils';
@@ -80,7 +80,8 @@ export default class App extends Component {
 		return (
 			<section style={{
 				padding: 20,
-				paddingTop: 0
+				paddingTop: 0,
+				width: "100%"
 			}}>
 
 				{ !!comments &&

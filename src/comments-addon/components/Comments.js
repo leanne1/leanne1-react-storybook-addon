@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
+import { ListGroup } from 'react-bootstrap';
 import Comment from './Comment';
 
-const Comments = ({comments}) => {
+const Comments = ({ comments }) => {
 	const commentsComponents = comments.map((comment, i) => {
 		const months = [
 			'Jan',
@@ -15,7 +16,7 @@ const Comments = ({comments}) => {
 			'Sep',
 			'Oct',
 			'Nov',
-			'Dec'
+			'Dec',
 		];
 		const _date = new Date(comment.timestamp);
 		const date = _date.getDate();
@@ -23,18 +24,19 @@ const Comments = ({comments}) => {
 		const year = _date.getFullYear();
 		return (
 			<Comment key={i}
-		         nickname={comment.userName}
-		         emailId={comment.userEmail}
-		         date={`${date} ${month} ${year}`}
-		         comment={ comment.comment}
-		         approved={comment.approved} />
-		)
+				nickname={comment.userName}
+				emailId={comment.userEmail}
+				date={`${date} ${month} ${year}`}
+				comment={ comment.comment}
+				approved={comment.approved}
+			/>
+		);
 	});
 	return 	(
-		<div>
-			<h5>Comments</h5>
+		<ListGroup componentClass="ul">
+			<h2>Comments</h2>
 			{ commentsComponents }
-		</div>
+		</ListGroup>
 	);
 };
 

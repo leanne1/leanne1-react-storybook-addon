@@ -20,6 +20,7 @@ const config = {
         loaders: ['json'],
         include: path.resolve(__dirname, '../'),
       },
+      { test: /\.(eot|ttf|svg|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
     ],
   }
 };

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import addonAPI from '@kadira/storybook-addons';
 import { App as Comments } from './containers';
 
