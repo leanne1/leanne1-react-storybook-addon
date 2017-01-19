@@ -50,9 +50,9 @@ export default class App extends Component {
 		const userEmail = localStorage.getItem('blabbr_userEmail');
 		userName && userEmail && this.setState({ user: { userName,  userEmail, isUserAuthenticated: true }});
 	}
-	registerUser(nickname, email) {
+	registerUser(username, email) {
 		const { user } = this.state;
-		localStorage.setItem('blabbr_userName', nickname);
+		localStorage.setItem('blabbr_userName', username);
 		localStorage.setItem('blabbr_userEmail', email);
 		this.setState({ user: Object.assign(user, { isUserAuthenticated: true })});
 	}
