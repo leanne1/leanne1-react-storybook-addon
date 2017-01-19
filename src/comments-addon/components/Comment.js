@@ -4,11 +4,12 @@ const Comment = ({
 	nickname,
 	emailId,
 	date,
+	time,
 	comment,
 	approved,
 }) => {
 	const panelHeader = (
-		<h3>{date}</h3>
+		<h3>{`${date}, ${time}`}</h3>
 	);
 	return (
 		<Panel header={panelHeader}>

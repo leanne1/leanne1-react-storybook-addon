@@ -22,11 +22,13 @@ const Comments = ({ comments }) => {
 		const date = _date.getDate();
 		const month = months[_date.getMonth()];
 		const year = _date.getFullYear();
+		const time = `${_date.getHours()}:${_date.getMinutes()}`;
 		return (
 			<Comment key={i}
 				nickname={comment.userName}
 				emailId={comment.userEmail}
 				date={`${date} ${month} ${year}`}
+		        time={time}
 				comment={ comment.comment}
 				approved={comment.approved}
 			/>
