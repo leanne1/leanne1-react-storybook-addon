@@ -1,5 +1,4 @@
 import { makeRequest, cleanComponentId } from '../utils';
-import stubComments from '../../../stub/comments.Button';
 
 const config = {
 	endpoint: 'http://localhost:3001',
