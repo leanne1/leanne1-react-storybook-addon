@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { ListGroup } from 'react-bootstrap';
 import Comment from './Comment';
 
-const Comments = ({ comments }) => {
+const Comments = ({ comments, currentUser, onUserCommentDelete }) => {
 	const commentsComponents = comments.map((comment, i) => {
 		const months = [
 			'Jan',
@@ -25,12 +25,15 @@ const Comments = ({ comments }) => {
 		const time = `${_date.getHours()}:${('0'+ _date.getMinutes()).slice(-2)}`;
 		return (
 			<Comment key={i}
+                onUserCommentDelete={onUserCommentDelete}
+	            currentUserIsOwner={currentUser === comment.userEmail}
 	            username={comment.userName}
 				emailId={comment.userEmail}
 				date={`${date} ${month} ${year}`}
 		        time={time}
 				comment={ comment.comment}
 				approved={comment.approved}
+	            commentId={comment.id}
 			/>
 		);
 	});
@@ -43,6 +46,8 @@ const Comments = ({ comments }) => {
 
 Comments.propTypes = {
 	comments: PropTypes.array,
+	currentUser: PropTypes.string.isRequired,
+	onUserCommentDelete: PropTypes.func.isRequired,
 };
 
 Comment.defaultProps = {

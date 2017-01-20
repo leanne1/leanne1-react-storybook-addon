@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import addonAPI from '@kadira/storybook-addons';
 import { Comments, Register, SubmitComment } from '../components';
 import { hasStorage } from '../utils';
-import { getComments, postComment } from '../api';
+import { getComments, postComment, deleteComment } from '../api';
 
 export default class App extends Component {
 	constructor(...args) {
@@ -29,6 +29,7 @@ export default class App extends Component {
 		this.onUserCommentChange = ::this.onUserCommentChange;
 		this.onCommentSubmit = ::this.onCommentSubmit;
 		this.postComment = ::this.postComment;
+		this.onUserCommentDelete = ::this.onUserCommentDelete;
 	}
 	componentWillMount() {
 		hasStorage('localStorage') && this.verifyUser();
@@ -77,6 +78,10 @@ export default class App extends Component {
 		e.preventDefault();
 		this.postComment(userComment);
 	}
+	onUserCommentDelete(e) {
+		const { activeComponent } = this.state;
+		deleteComment(activeComponent, e.target.id);
+	}
 	postComment(userComment) {
 		const {
 			user: { userName, userEmail },
@@ -115,7 +120,6 @@ export default class App extends Component {
 			userComment,
 		} =  this.state;
 
-		const hasComments = !!comments.length;
 		return (
 			<section style={{
 				padding: 20,
@@ -142,7 +146,10 @@ export default class App extends Component {
 					/>
 				}
 
-				<Comments comments={comments}
+				<Comments
+					onUserCommentDelete={this.onUserCommentDelete}
+					currentUser={userEmail}
+					comments={comments}
 				/>
 
 			</section>

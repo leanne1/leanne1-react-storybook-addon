@@ -7,6 +7,9 @@ const Comment = ({
 	time,
 	comment,
 	approved,
+	currentUserIsOwner,
+	commentId,
+	onUserCommentDelete,
 }) => {
 	const panelHeader = (
 		<h3>{`${date}, ${time}`}</h3>
@@ -26,10 +29,23 @@ const Comment = ({
 			</Button>
 
 			<Button
+				style={{ marginRight: 10 }}
 				bsStyle="warning"
 			>
 				Edit
 			</Button>
+
+			{ !!currentUserIsOwner &&
+				<Button
+					style={{ marginRight: 10 }}
+					bsStyle="danger"
+				    id={commentId}
+				    onClick={onUserCommentDelete}
+				>
+					Delete
+				</Button>
+			}
+
 		</Panel>
 	);
 };
@@ -41,6 +57,8 @@ Comment.propTypes = {
 	time: PropTypes.string.isRequired,
 	comment: PropTypes.string.isRequired,
 	approved: PropTypes.bool,
+	currentUserIsOwner: PropTypes.bool.isRequired,
+	onUserCommentDelete: PropTypes.func.isRequired,
 };
 
 Comment.defaultProps = {
